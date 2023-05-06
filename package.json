@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-express-sequelize-mysql-crud-application",
+  "version": "1.0.0",
+  "description": "A backend application to exemple of a Crud using mysql.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrissoares/nodejs-express-sequelize-mysql-crud-application.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequelize",
+    "mysql",
+    "rest",
+    "api"
+  ],
+  "author": "christiano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chrissoares/nodejs-express-sequelize-mysql-crud-application/issues"
+  },
+  "homepage": "https://github.com/chrissoares/nodejs-express-sequelize-mysql-crud-application#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^3.3.0",
+    "sequelize": "^6.31.1"
+  }
+}
