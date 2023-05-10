@@ -16,7 +16,8 @@
     "sequelize",
     "mysql",
     "rest",
-    "api"
+    "api",
+    "one-to-many"
   ],
   "author": "christiano",
   "license": "ISC",
