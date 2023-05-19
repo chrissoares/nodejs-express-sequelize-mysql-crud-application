@@ -1,7 +1,138 @@
 const db = require("../models");
 const Tutorial = db.tutorials;
 const Comment = db.comments;
+const Tag = db.tag;
 const Op = db.Sequelize.Op;
+
+// Tag Group
+
+// Create and Save a new Tag
+exports.createTag = (req, res) => {
+    //Validate request
+    if(!req.body.name){
+        res.status(400).send({
+            message: "Tag can not be empty!"
+        });
+        return;
+    };
+
+    // Create a Tag
+    const tag = {
+        name: req.body.name,
+    };
+    
+    // Save Tag in the database
+    Tag.create(tag)
+        .then(data => {
+            res.send(data);
+        })
+        .catch( err => {
+            req.status(500).send({
+                message:
+                err.message || "Some error occurred while creating the Tag."
+            });
+        });
+};
+
+// Retrive all Tags from the database.
+exports.findAllTag = (req, res) => {
+    const name = req.query.name;
+    var condition = name ? { name: { [Op.like]: `%${name}%`}} : null;
+
+    Tag.findAll({
+        include: [
+            {
+                model: Tutorial,
+                as: "tutorials",
+                attributes: ["id", "title", "description", "createdAt"],
+                through:{
+                    attributes: [],
+                }
+            },
+        ],
+        where: condition // Maybe can teste remove it.
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while retrieving tags."
+        });
+    });
+};
+
+// Find a single Tag with an id
+exports.findOneTag = (req, res) => {
+    const id = req.params.id;
+    
+    Tag.findByPk(id, {
+        include: [
+            {
+                model: Tutorial,
+                as: "tutorials",
+                attributes: ["id", "title", "description", "createdAt"],
+                through: {
+                    attributes: [],
+                }
+            },
+        ],
+    })
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find Tag with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error retrieving Tag with id="+id
+            });
+        });
+};
+
+// Add a tutorial in a Tag
+exports.addTutorial = (req, res) => {
+    const tagId = req.body.tagId;
+    const tutorialId = req.body.tutorialId;
+
+
+
+    Tag.findByPk(tagId)
+        .then((tag) => {
+            if (!tag) {
+                res.status(404).send({
+                    message: "Tag not found."
+                });
+            };
+
+            Tutorial.findByPk(tutorialId)
+                .then((tutorial) => {
+                    if (!tutorial) {
+                        res.status(404).send({
+                            message: "Tutorial not found!"
+                        });
+                    };
+
+                    tag.addTutorial(tutorial)
+                        .then(data => {
+                            res.send(data);
+                        })
+                        .catch(err => {
+                            req.status(500).send({
+                                message:
+                                err.message || "Some error occurred while adding a Tutorial in a Tag."
+                            })
+                        })
+                });
+        });
+}
+
+// -> End Tag Group
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -100,7 +231,17 @@ exports.findAll = (req, res) => {
     var condition = title ? { title: { [Op.like]: `%${title}%`}} : null;
 
     Tutorial.findAll({
-        include: ["comments"],
+        include: [
+            {
+                model: Tag,
+                as: "tags",
+                attributes: ["id", "name"],
+                through: {
+                    attributes: [],
+                }
+            },
+            "comments"
+        ],
         where: condition
     })
     .then(data => {
@@ -118,7 +259,18 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Tutorial.findByPk(id, {include: ["comments"]})
+    Tutorial.findByPk(id, {
+        include: [
+            {
+                model: Tag,
+                as: "tags",
+                attributes: ["id", "name"],
+                through: {
+                    attributes: [],
+                }
+            },
+            "comments"
+        ]})
         .then(data => {
             if (data) {
                 res.send(data);

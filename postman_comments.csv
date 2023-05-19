@@ -1,0 +1,13 @@
+nome, comentario, aprovado, tutorialid
+Christiano, Este é um simples teste de comentário, true, 1
+Christiano, Um segundo comentário, true, 1
+Chris, Outra pessoa comentando, true, 1
+Tiozão Gamer, Agora um maluco comentando, true, 1
+Christiano, Outras publicações recebem comentário também, true, 2
+Gabriel, Mais velho comentando, true, 4
+Isaque, Não fala mas comenta, true, 5
+André, Como que ele esta comentando ?, true, 1
+Pilantra, Claro que é um SPAN, false, 2
+Safado, Comentário indevido, false, 5
+Pidão, Não é o local para isto, false, 3
+

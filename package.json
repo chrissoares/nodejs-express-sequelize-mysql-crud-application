@@ -1,7 +1,7 @@
 {
   "name": "nodejs-express-sequelize-mysql-crud-application",
   "version": "1.0.0",
-  "description": "A backend application to exemple of a Crud using mysql.",
+  "description": "A backend application to exemple of a Crud using mysql, with one-to-many and many-to-many relationships.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,7 +17,9 @@
     "mysql",
     "rest",
     "api",
-    "one-to-many"
+    "relationship",
+    "one-to-many",
+    "many-to-many"
   ],
   "author": "christiano",
   "license": "ISC",
@@ -26,8 +28,10 @@
   },
   "homepage": "https://github.com/chrissoares/nodejs-express-sequelize-mysql-crud-application#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.3.0",
     "sequelize": "^6.31.1"
   }
